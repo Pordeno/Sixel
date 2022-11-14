@@ -8,7 +8,9 @@
     alt = 'Sixel'
 />
 
-*Pixel Graphics In You Terminal Emulator*
+<br>
+
+**Pixel Graphics In Your Terminal Emulator**
 
 </div>
 
