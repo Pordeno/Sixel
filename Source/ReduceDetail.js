@@ -9,6 +9,46 @@ const
     { log } = console ;
 
 
+function reduced ( palette , newToOld , coarseness ){
+
+    const coarser = ( channel ) =>
+        min(100,round(channel / coarseness) * coarseness);
+
+    const 
+        unique = [] ,
+        ids = [] ;
+    
+    let nextNewToOld = {};
+    let currentId = 0;
+    
+    for ( let color of palette ){
+        
+        color = color.map(coarser);
+        
+        const id = hash(color);
+        
+        let index = ids.indexOf(id);
+        
+        if(index < 0){
+            
+            if(unique.length >= 256)
+                return
+            
+            index = ids.length;
+            
+            unique.push(color);
+            ids.push(id);
+        }
+        
+        nextNewToOld[index] ??= [];
+        nextNewToOld[index].push(...newToOld[currentId]);
+        
+        currentId++;
+    }
+    
+    return [ nextNewToOld , unique ]
+}
+
 
 export default function reduce ( palette ){
     
@@ -18,47 +58,42 @@ export default function reduce ( palette ){
     
     
     let coarseness = 1;
+    let change = 5;
     
-    const reduceDetail = ( channel ) =>
-        min(100,round(channel / coarseness) * coarseness)
+    let previous;
     
+    while ( true ){
+        
+        coarseness += change;
+        
+        const result = reduced(palette,newToOld,coarseness);
+        
+        if(result){
+            coarseness -= change;
+            previous = result;
+            break
+        }
+    }
     
-    while ( palette.length > 256){
+    if(previous){
+        newToOld = previous[0];
+        palette = previous[1];
+    }
+    
+    log('Mid Coarseness:',coarseness);
+    
+    while ( true ){
         
         coarseness += 1;
         
-        const 
-            unique = [] ,
-            ids = [] ;
         
-        let currentId = 0;
-        let nextNewToOld = {};
+        const result = reduced(palette,newToOld,coarseness);
         
-        for ( let color of palette ){
-            
-            color = color
-                .map(reduceDetail);
-            
-            const id = hash(color);
-            
-            let index = ids.indexOf(id);
-            
-            if(index < 0){
-                
-                index = ids.length;
-                
-                unique.push(color);
-                ids.push(id);
-            }
-            
-            nextNewToOld[index] ??= [];
-            nextNewToOld[index].push(...newToOld[currentId]);
-            
-            currentId++;
+        if(result){
+            newToOld = result[0];
+            palette = result[1];
+            break
         }
-        
-        newToOld = nextNewToOld;
-        palette = unique;
     }
     
     
