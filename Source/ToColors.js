@@ -1,19 +1,24 @@
 
 
-export default function toColors ( channels ){
+const { floor } = Math;
+
+
+export default function * toColors ( channels ){
     
-    const colors = []
+    let color = [];
+    let count = 0;
     
-    const { length } = channels;
-    
-    let offset = 0;
-    
-    while ( offset < length )
-        colors.push([ 
-            channels[ offset++ ] ,
-            channels[ offset++ ] ,
-            channels[ offset++ ]
-        ])
+    for ( const channel of channels ){
         
-    return colors
+        color.push(floor(channel));
+        
+        count++;
+        
+        if(count < 3)
+            continue
+            
+        yield color;
+
+        [ color , count ] = [ [] , 0 ]
+    }
 }

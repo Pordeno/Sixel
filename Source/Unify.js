@@ -1,9 +1,12 @@
 
-import { Hash } from '../Source/FFI.js'
+// import { Hash } from '../Source/FFI.js'
+import hash from '../Source/Hash.js'
+
+const { round , min } = Math;
 
 
 const reduceDetail = ( channel ) =>
-    Math.min(100,Math.round(channel / 4) * 4)
+    min(100,round(channel / 4) * 4)
 
 const coarse = ( color ) => 
     color.map(reduceDetail)
@@ -11,11 +14,12 @@ const coarse = ( color ) =>
 
 export default function unify ( colors , palette ){
     
+    const colormap = [];
     const unique = [];
     
-    return colors.map((color) => {
-    
-        const id = Hash(...coarse(color));
+    for ( const color of colors ){
+        
+        const id = hash(coarse(color));
     
         let index = unique.indexOf(id);
     
@@ -25,6 +29,8 @@ export default function unify ( colors , palette ){
             unique.push(id);
         }
     
-        return index
-    })
+        colormap.push(index);
+    }
+    
+    return colormap
 }

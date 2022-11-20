@@ -1,6 +1,6 @@
 
-import { Hash } from '../Source/FFI.js'
-
+// import { Hash } from '../Source/FFI.js'
+import hash from '../Source/Hash.js'
 
 
 const 
@@ -39,7 +39,7 @@ export default function reduce ( palette ){
             color = color
                 .map(reduceDetail);
             
-            const id = Hash(...color);
+            const id = hash(color);
             
             let index = ids.indexOf(id);
             
