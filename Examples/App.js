@@ -1,8 +1,6 @@
 
 import { Hash } from '../Source/FFI.js'
 
-import { decode } from 'https://deno.land/x/pngs/mod.ts';
-
 import normalize from '../Source/Normalize.js'
 import toSixels from '../Source/ToSixels.js'
 import toColors from '../Source/ToColors.js'
@@ -11,51 +9,17 @@ import toRows from '../Source/ToRows.js'
 import render from '../Source/Render.js'
 import unify from '../Source/Unify.js'
 
+import fromPNG from './PNG.js'
+
+
 const 
     { timeEnd , time , clear , log } = console ,
-    { fromEntries , entries } = Object ,
-    { readFile } = Deno ;
+    { fromEntries , entries } = Object ;
 
 
 clear();
 
-
-const file = 'Images/Test.png';
-
-time('Loading');
-
-
-time('Everything');
-
-const bytes = await readFile(file);
-
-timeEnd('Loading');
-
-
-time('Decoding');
-
-const { image , width , height , colorType , ...details } = decode(bytes);
-
-timeEnd('Decoding');
-
-
-log(details,image.length);
-
-
-
-log(`
-    Original : ${ width } x ${ height }
-`)
-
-
-
-time('Paint');
-
-let data = image;
-
-
-if(colorType === 6)
-    data = data.filter((_,index) => (index % 4) !== 3);
+let { data , width , height } = await fromPNG('Images/Test.png');
 
 
 time('Normalization');
