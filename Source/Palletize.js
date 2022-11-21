@@ -14,7 +14,7 @@ export default function unify ( colors ){
     let coarseness = 1;
     
     const coarser = ( channel ) =>
-        round(channel / coarseness) * coarseness
+        round(channel / coarseness)
         
     const reduce = ([ r , g , b ]) => [
         coarser(r) ,
@@ -44,7 +44,7 @@ export default function unify ( colors ){
                     return false
                 
                 index = unique.length;
-                palette.push(color);
+                palette.push(reduced);
                 unique.push(id);
             }
 
@@ -63,6 +63,10 @@ export default function unify ( colors ){
     }
     
     console.log('Final Coarseness:',coarseness);
+    
+    palette = palette.map((color) => 
+        color.map((channel) => 
+            channel * coarseness))
     
     return [ palette , pixels ]
 }
