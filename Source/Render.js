@@ -56,10 +56,10 @@ export default function render ( palette , rows , width , height ){
     
     
     
-    const layers = Array(palette.length)
+    let lines = Array(height)
         .fill(null)
         .map(() =>
-            Array(height)
+            Array(palette.length)
                 .fill(null));
 
     
@@ -77,8 +77,8 @@ export default function render ( palette , rows , width , height ){
         for ( const sixel of row ){
         
             sixel.forEach((colorId,index) => {
-                layers[colorId][y] ??= Array(width).fill(0)
-                layers[colorId][y][x] += ( 1 << index );
+                lines[y][colorId] ??= Array(width).fill(0)
+                lines[y][colorId][x] += ( 1 << index );
             })
             
             x++;
@@ -100,7 +100,7 @@ export default function render ( palette , rows , width , height ){
         .join('');
 
     
-    const filled = layers.map((rows) => rows
+    lines = lines.map((layers) => layers
         .map(deduplicate)
         .map(encodeSixels)
     )
@@ -110,36 +110,24 @@ export default function render ( palette , rows , width , height ){
     
     time('Extracting Lines');
     
-    const lines = arrayOf(height,() => []);
     
-    for ( const color in filled ){
+    let content = '';
+    
+    for ( const layers of lines ){
+        layers.forEach(( sixels , layer ) => {
+            if(sixels.length)
+                content += `#${ layer }${ sixels }$`
+        })
         
-        const rows = filled[color];
-        
-        for ( const line in rows ){
-            
-            const content = rows[line];
-            
-            if(content.length)
-                lines[line].push(`#${ color }${ content }`);
-        }
+        content += '-'
     }
     
     timeEnd('Extracting Lines');
     
 
-    time('Combine Rows');
-
-    const sixels = lines
-        .map((content) => content.join('$') + '-')
-        .join('');
-    
-    timeEnd('Combine Rows');
-    
-    
-    const content = printSixels(colors,sixels);
+    const frame = printSixels(colors,content.slice(0,-1));
     
     timeEnd('Render');
     
-    return content
+    return frame
 }
