@@ -1,9 +1,11 @@
 
 import { printSixels , cursorTo } from './XTerm.js'
 import { declareColor } from './Sixels.js'
+import deduplicate from './Deduplicate.js'
 
 
 const { timeEnd , time , log } = console; 
+
 
 const sum = ( a , b ) => 
     a + b;
@@ -21,9 +23,16 @@ const mapping = Array(64)
     .map(sum)
     .map(toChar);
 
-const toSixel = ( decimal ) =>
-    mapping[decimal];
 
+const toSixel = ([ count , decimal ]) => {
+    
+    decimal = mapping[decimal];
+    
+    if(count < 3)
+        return decimal.repeat(count)
+        
+    return `!${ count }${ decimal }`
+}
 
 
 function arrayOf ( size , filler ){
@@ -59,10 +68,11 @@ export default function render ( palette , rows , width , height ){
     //  To Sixel Decimal
     
     let y = 0;
+    let x = 0;
     
     for ( const row of rows ){
         
-        let x = 0;
+        x = 0;
         
         for ( const sixel of row ){
         
@@ -78,70 +88,21 @@ export default function render ( palette , rows , width , height ){
     }
     
     timeEnd('Sixel Decimal');
+    console.log('ToSixel',x,y,x * y)
     
     
     time('Extracting Filled');
     
     //  To Sixel Sequence
     
-    function deduplicate ( string ){
-        
-        let
-            unique = '' ,
-            count = 0 ,
-            last ;
-            
-        const addReated = () => {
-            
-            //  Doesn't make a real differrence on either side
-            
-            // unique += `!${ count }${ last }`;
-            
-            unique += (count > 3) 
-                ? `!${ count }${ last }`
-                : last.repeat(count) ;
-            
-            count = 0;
-        }
-        
-        for ( const char of string ){
-            
-            if(last === char){
-                count++;
-                continue
-            }
-            
-            if(count)
-                addReated();
-            
-            unique += char;
-            last = char;
-        }
-        
-        if(count)
-            addReated();
-        
-        return unique;
-    }
-    
-    
-    const shortenEmpty = ( string ) => {
-        
-        if(/^\?*$/.test(string))
-            return ''
-        
-        return string
-    }
-    
-    const encodeSixels = ( row ) => 
-        row?.map(toSixel)
-            .join('') ?? '';
+    const encodeSixels = ( sequence ) => sequence
+        .map(toSixel)
+        .join('');
 
     
     const filled = layers.map((rows) => rows
-        .map(encodeSixels)
-        // .map(shortenEmpty)
         .map(deduplicate)
+        .map(encodeSixels)
     )
     
     timeEnd('Extracting Filled');
