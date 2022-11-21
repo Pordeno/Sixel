@@ -21,12 +21,8 @@ const mapping = Array(64)
     .map(sum)
     .map(toChar);
 
-
-function toSixel ( decimal ){
-    return mapping[decimal];
-}
-
-
+const toSixel = ( decimal ) =>
+    mapping[decimal];
 
 
 
@@ -39,7 +35,7 @@ function arrayOf ( size , filler ){
 
 
 
-export default function render ( palette , rows, width , height ){
+export default function render ( palette , rows , width , height ){
     
     log('Palette Size:',palette.length)
     
@@ -97,6 +93,10 @@ export default function render ( palette , rows, width , height ){
             
         const addReated = () => {
             
+            //  Doesn't make a real differrence on either side
+            
+            // unique += `!${ count }${ last }`;
+            
             unique += (count > 3) 
                 ? `!${ count }${ last }`
                 : last.repeat(count) ;
@@ -141,7 +141,8 @@ export default function render ( palette , rows, width , height ){
     const filled = layers.map((rows) => rows
         .map(encodeSixels)
         // .map(shortenEmpty)
-        .map(deduplicate))
+        .map(deduplicate)
+    )
     
     timeEnd('Extracting Filled');
     

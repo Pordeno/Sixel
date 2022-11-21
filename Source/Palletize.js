@@ -23,7 +23,7 @@ export default function unify ( colors ){
     ]
     
         
-    function retry (){
+    function calculate (){
         
         const unique = [];
         palette = [];
@@ -40,10 +40,8 @@ export default function unify ( colors ){
 
             if(index < 0){
                 
-                if(unique.length >= 256){
-                    coarseness++;
-                    return false;
-                }
+                if(unique.length >= 256)
+                    return false
                 
                 index = unique.length;
                 palette.push(color);
@@ -56,10 +54,13 @@ export default function unify ( colors ){
         return true
     }
     
-    while (true)
-        if(retry())
-            break;
+    while ( true ){
         
+        if(calculate())
+            break
+            
+        coarseness++;
+    }
     
     console.log('Final Coarseness:',coarseness);
     
