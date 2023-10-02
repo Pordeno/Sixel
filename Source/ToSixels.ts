@@ -2,10 +2,10 @@
 export { toSixels }
 
 
-function toSixels ( rows , width ){
-    return rows.map((row) => {
+function toSixels ( rows : Array<number[]> , width : number ){
+    return rows.map(( row ) => {
         
-        const sixels = []
+        const sixels = new Array<number[]>
         
         for ( let x = 0 ; x < width ; x++ ){
         

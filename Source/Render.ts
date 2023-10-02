@@ -1,43 +1,44 @@
 
 export { render }
 
-import { printSixels , cursorTo } from './XTerm.js'
-import { declareColor } from './Sixels.js'
-import { deduplicate } from './Deduplicate.js'
+import { printSixels , cursorTo } from './XTerm.ts'
+import { declareColor } from './Sixels.ts'
+import { deduplicate } from './Deduplicate.ts'
+import { Color } from './Types.ts'
 
 
 const { timeEnd , time , log } = console
 
 
-const sum = ( a , b ) => a + b
+const sum = ( a : number , b : number ) => a + b
 
 
 const { fromCharCode } = String
 
 
-const toChar = ( code ) =>
+const toChar = ( code : number ) =>
     fromCharCode(code)
     
 
-const mapping = Array(64)
+const mapping = Array<number>(64)
     .fill(63)
     .map(sum)
     .map(toChar)
 
 
-const toSixel = ([ count , decimal ]) => {
+const toSixel = ([ count , decimal ] : [ number , number ] ) => {
     
-    decimal = mapping[ decimal ]
+    const char = mapping[ decimal ]
     
     if( count < 3 )
-        return decimal.repeat(count)
+        return char.repeat(count)
         
-    return `!${ count }${ decimal }`
+    return `!${ count }${ char }`
 }
 
 
 
-function render ( palette , rows , width , height ){
+function render ( palette : Array<Color> , rows : Array<Color[]> , width : number , height : number ){
     
     log('Palette Size:',palette.length)
     
@@ -72,7 +73,7 @@ function render ( palette , rows , width , height ){
         
         for ( const sixel of row ){
         
-            sixel.forEach((colorId,index) => {
+            sixel.forEach(( colorId , index ) => {
                 lines[y][colorId] ??= Array(width).fill(0)
                 lines[y][colorId][x] += ( 1 << index )
             })
@@ -92,7 +93,7 @@ function render ( palette , rows , width , height ){
     
     //  To Sixel Sequence
     
-    const encodeSixels = ( sequence ) => sequence
+    const encodeSixels = ( sequence : Array<[ number , number ]> ) => sequence
         .map(toSixel)
         .join('')
 

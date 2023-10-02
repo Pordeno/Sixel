@@ -5,7 +5,7 @@ export { toColors }
 const { floor } = Math
 
 
-function * toColors ( channels ){
+function * toColors ( channels : Array<number> ){
     
     let color = [] ,
         count = 0

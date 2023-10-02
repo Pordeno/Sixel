@@ -1,29 +1,31 @@
 
 export { unify }
 
-import { hash } from './Hash.js'
+import { Color } from './Types.ts'
+import { hash } from './Hash.ts'
+
 
 
 const { round } = Math
 
 
-function unify ( colors ){
+function unify ( colors : Array<Color> ){
     
     colors = [ ... colors ]
     
     let coarseness = 1 ,
-        palette = [] ,
-        pixels = []
+        palette = new Array<Color> ,
+        pixels = new Array<number>
 
         
-    const coarser = ( channel ) =>
+    const coarser = ( channel : number ) =>
         round(channel / coarseness)
         
-    const reduce = ([ r , g , b ]) => [
+    const reduce = ([ r , g , b ] : Color ) => [
         coarser(r) ,
         coarser(g) ,
         coarser(b)
-    ]
+    ] as Color
     
         
     function calculate (){
@@ -70,8 +72,7 @@ function unify ( colors ){
     console.log(`Final Coarseness:`,coarseness)
     
     palette = palette.map(( color ) => 
-        color.map(( channel ) => 
-            channel * coarseness))
+        color.map(( channel ) => channel * coarseness) as Color )
     
-    return [ palette , pixels ]
+    return [ palette , pixels ] as const
 }

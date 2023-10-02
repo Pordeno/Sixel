@@ -1,10 +1,10 @@
 
-import { normalize } from '../Source/Normalize.js'
-import { toSixels } from '../Source/ToSixels.js'
-import { toColors } from '../Source/ToColors.js'
-import { toRows } from '../Source/ToRows.js'
-import { render } from '../Source/Render.js'
-import { unify } from '../Source/Palletize.js'
+import { normalize } from '../Source/Normalize.ts'
+import { toSixels } from '../Source/ToSixels.ts'
+import { toColors } from '../Source/ToColors.ts'
+import { toRows } from '../Source/ToRows.ts'
+import { render } from '../Source/Render.ts'
+import { unify } from '../Source/Palletize.ts'
 
 import fromPNG from './PNG.js'
 

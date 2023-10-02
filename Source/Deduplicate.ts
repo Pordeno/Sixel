@@ -2,7 +2,7 @@
 export { deduplicate }
 
 
-function deduplicate ( sequence ){
+function deduplicate ( sequence ?: Array<number> ){
 
     sequence ??= []
 
