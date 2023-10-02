@@ -1,5 +1,7 @@
 
-import { decode } from 'https://deno.land/x/pngs/mod.ts';
+export { fromPNG }
+
+import { decode } from 'https://deno.land/x/pngs@0.1.1/mod.ts';
 
 const 
     { timeEnd , time , clear , log } = console ,
@@ -9,7 +11,7 @@ const
 clear();
 
 
-export default async function fromPNG ( path ){
+async function fromPNG ( path : string ){
     
     time('Loading');
 
@@ -33,8 +35,6 @@ export default async function fromPNG ( path ){
         ColorType : ${ colorType }
         Bytes : ${ image.length }
     `)
-
-    time('Paint');
 
 
     if(colorType === 6)

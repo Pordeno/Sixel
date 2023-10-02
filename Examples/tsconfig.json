@@ -1,0 +1,10 @@
+{
+    "compilerOptions" : {
+
+        "allowImportingTsExtensions" : true ,
+        "noImplicitAny" : true ,
+        "noEmit" : true ,
+
+        "target" : "ESNext"
+    }
+}
