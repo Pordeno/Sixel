@@ -3,3 +3,14 @@ Images/
 Old/
 
 *.o
+
+Library/
+
+# Generated Rust-WASM stuff
+
+Library/target
+
+
+# Generated image escape sequence
+
+Output.txt

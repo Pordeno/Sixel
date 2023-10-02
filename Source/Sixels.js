@@ -1,5 +1,8 @@
 
-const { fromCharCode : toChar } = String; 
+export { declareColor , writePixels , toSixel }
+
+
+const { fromCharCode : toChar } = String
 
 const 
     SixelOffset = 63 ,
@@ -10,7 +13,7 @@ const
  *  @param color Normalized ( 0 - 100 ) RGB color array.
  */
 
-export function declareColor ( id , color ){
+function declareColor ( id , color ){
     return `#${ id };${ RGBMode };${ color.join(';') }`
 }
 
@@ -19,12 +22,12 @@ export function declareColor ( id , color ){
  *  @param pixels Array of decimal sixel data.
  */
  
-export function writePixels ( colorId , pixels ){
+function writePixels ( colorId , pixels ){
     
     const sixels = pixels
         .map(toSixel)
         .join('')
-        .replace(/\?+/g,(string) => `!${ string.length }?`);
+        .replace(/\?+/g,(string) => `!${ string.length }?`)
     
     return `#${ colorId }${ sixels }`
 }
@@ -34,9 +37,9 @@ export function writePixels ( colorId , pixels ){
  *  @param decimal 6-bit bitmap of one sixel column.
  */
 
-export function toSixel ( decimal ){
+function toSixel ( decimal ){
     
-    if(decimal)
+    if( decimal )
         return toChar(decimal + SixelOffset)
     
     return '?'

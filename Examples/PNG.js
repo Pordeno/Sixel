@@ -23,7 +23,7 @@ export default async function fromPNG ( path ){
 
     time('Decoding');
 
-    const { image , width , height , colorType , ...details } = decode(bytes);
+    let { image , width , height , colorType , ...details } = decode(bytes);
 
     timeEnd('Decoding');
 

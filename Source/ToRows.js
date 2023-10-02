@@ -1,22 +1,24 @@
 
+export { toRows }
 
-export default function toRows ( colors , width ){
+
+function toRows ( colors , width ){
     
-    const rows = [];
+    const rows = []
     
-    let row = [];
+    let row = []
     
     for ( const color of colors ){
         
-        row.push(color);
+        row.push(color)
         
-        if(row.length < width * 6)
+        if( row.length < width * 6 )
             continue
             
-        rows.push(row);
+        rows.push(row)
         
-        row = [];
+        row = []
     }
     
-    return rows;
+    return rows
 }

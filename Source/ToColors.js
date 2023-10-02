@@ -1,24 +1,27 @@
 
+export { toColors }
 
-const { floor } = Math;
+
+const { floor } = Math
 
 
-export default function * toColors ( channels ){
+function * toColors ( channels ){
     
-    let color = [];
-    let count = 0;
+    let color = [] ,
+        count = 0
     
     for ( const channel of channels ){
         
-        color.push(floor(channel));
+        color.push(floor(channel))
         
-        count++;
+        count++
         
-        if(count < 3)
+        if( count < 3 )
             continue
             
-        yield color;
+        yield color
 
-        [ color , count ] = [ [] , 0 ]
+        color = []
+        count = 0
     }
 }

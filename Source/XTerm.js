@@ -1,19 +1,22 @@
 
-const { floor } = Math;
-
-const Escape = '\x1B';
+export { printSixels , cursorTo }
 
 
-export function cursorTo ( x , y ){
+const { floor } = Math
+
+const Escape = '\x1B'
+
+
+function cursorTo ( x , y ){
     return Escape + `[${ floor(y) };${ floor(x) }H`
 }
 
-export function printSixels ( colors , sixels ){
+function printSixels ( colors , sixels ){
     
     
     const data = colors
         .concat(sixels)
-        .join('');
+        .join('')
     
-    return Escape + `Pq${ data }` + Escape + '\\'
+    return `${ Escape }Pq${ data }${ Escape }\\`
 }

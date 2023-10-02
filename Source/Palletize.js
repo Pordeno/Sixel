@@ -1,18 +1,21 @@
 
-import hash from '../Source/Hash.js'
+export { unify }
 
-const { round , min } = Math;
+import { hash } from './Hash.js'
 
 
-export default function unify ( colors ){
+const { round } = Math
+
+
+function unify ( colors ){
     
-    colors = [ ... colors ];
+    colors = [ ... colors ]
     
-    let palette = [];
-    let pixels = [];
-    
-    let coarseness = 1;
-    
+    let coarseness = 1 ,
+        palette = [] ,
+        pixels = []
+
+        
     const coarser = ( channel ) =>
         round(channel / coarseness)
         
@@ -25,30 +28,32 @@ export default function unify ( colors ){
         
     function calculate (){
         
-        const unique = [];
-        palette = [];
-        pixels = [];
+        const unique = []
+
+        palette = []
+        pixels = []
         
         
         for ( const color of colors ){
             
-            const reduced = reduce(color);
+            const reduced = reduce(color)
             
-            const id = hash(reduced);
+            const id = hash(reduced)
             
-            let index = unique.indexOf(id);
+            let index = unique.indexOf(id)
 
-            if(index < 0){
+            if( index < 0 ){
                 
-                if(unique.length >= 256)
+                if( unique.length >= 256 )
                     return false
                 
-                index = unique.length;
-                palette.push(reduced);
-                unique.push(id);
+                index = unique.length
+
+                palette.push(reduced)
+                unique.push(id)
             }
 
-            pixels.push(index);
+            pixels.push(index)
         }
         
         return true
@@ -56,16 +61,16 @@ export default function unify ( colors ){
     
     while ( true ){
         
-        if(calculate())
+        if( calculate() )
             break
             
-        coarseness++;
+        coarseness++
     }
     
-    console.log('Final Coarseness:',coarseness);
+    console.log(`Final Coarseness:`,coarseness)
     
-    palette = palette.map((color) => 
-        color.map((channel) => 
+    palette = palette.map(( color ) => 
+        color.map(( channel ) => 
             channel * coarseness))
     
     return [ palette , pixels ]
