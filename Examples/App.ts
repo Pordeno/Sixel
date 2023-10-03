@@ -6,7 +6,7 @@ import { toRows } from '../Source/ToRows.ts'
 import { render } from '../Source/Render.ts'
 import { unify } from '../Source/Palletize.ts'
 
-import fromPNG from './PNG.js'
+import fromPNG from './PNG.ts'
 
 
 const { timeEnd , time , clear , log } = console
@@ -18,42 +18,49 @@ clear();
 let { data , width , height } = await fromPNG('Images/Test15.png');
 
 
+time('Paint');
+
+time('Conversion');
+
+
 time('Normalization');
 
-data = normalize(data);
+const normalized = [ ... normalize(data) ]
 
 timeEnd('Normalization');
 
 
 time('ToColors');
 
-data = toColors(data);
+const colors = [ ... toColors(normalized) ]
 
 timeEnd('ToColors');
 
 
 time('Palletize');
 
-const [ palette , pixels ] = unify(data);
+const [ palette , pixels ] = unify(colors);
 
 timeEnd('Palletize');
 
 
 time('ToRows');
 
-let rows = toRows(pixels,width);
+const rows = toRows(pixels,width);
 
 timeEnd('ToRows');
 
 
 time('ToSixel');
 
-rows = toSixels(rows,width);
+const sixels = toSixels(rows,width);
 
 timeEnd('ToSixel');
 
+timeEnd('Conversion');
 
-const content = render(palette,rows,width,height);
+
+const content = render(palette,sixels,width,height);
 
 time('Display');
 log(content);

@@ -1,0 +1,5 @@
+{
+    "tasks" : {
+        "example" : "deno run --watch --unstable -A Examples/App.ts"
+    }
+}

@@ -1,6 +1,8 @@
 
 export { toColors }
 
+import { Color } from './Types.ts'
+
 
 const { floor } = Math
 
@@ -19,7 +21,7 @@ function * toColors ( channels : Array<number> ){
         if( count < 3 )
             continue
             
-        yield color
+        yield color as Color
 
         color = []
         count = 0

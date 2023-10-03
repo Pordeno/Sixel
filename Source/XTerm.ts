@@ -1,15 +1,9 @@
 
-export { printSixels , cursorTo }
+export { printSixels }
 
-
-const { floor } = Math
 
 const Escape = '\x1B'
 
-
-function cursorTo ( x : number , y : number ){
-    return Escape + `[${ floor(y) };${ floor(x) }H`
-}
 
 function printSixels ( colors : Array<string> , sixels : string ){
     

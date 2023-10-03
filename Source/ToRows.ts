@@ -1,10 +1,8 @@
 
 export { toRows }
 
-import { Color } from './Types.ts'
 
-
-function toRows ( colors : Array<Color> , width : number ){
+function toRows ( colors : Array<number> , width : number ){
     
     const rows = []
     

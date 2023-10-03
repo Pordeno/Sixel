@@ -9,7 +9,7 @@ const
 clear();
 
 
-export default async function fromPNG ( path ){
+export default async function fromPNG ( path : string ){
     
     time('Loading');
 
@@ -33,9 +33,6 @@ export default async function fromPNG ( path ){
         ColorType : ${ colorType }
         Bytes : ${ image.length }
     `)
-
-    time('Paint');
-
 
     if(colorType === 6)
         image = image.filter((_,index) => (index % 4) !== 3);
