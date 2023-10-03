@@ -1,7 +1,5 @@
 
-export type { Sixel , Color } 
+export type { Color } 
 
 
-type Sixel = [ number , number , number , number , number , number ]
 type Color = [ number , number , number ]
-

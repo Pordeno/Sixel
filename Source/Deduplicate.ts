@@ -6,9 +6,9 @@ function deduplicate ( sequence ?: Array<number> ){
 
     sequence ??= []
 
-    const shortened : Array<[ number , number ]> = []
+    const shortened = []
     
-    let previous = 0 ,
+    let previous ,
         count = 0
 
     for ( const number of sequence ){

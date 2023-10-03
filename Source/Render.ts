@@ -4,7 +4,7 @@ export { render }
 import { printSixels , cursorTo } from './XTerm.ts'
 import { declareColor } from './Sixels.ts'
 import { deduplicate } from './Deduplicate.ts'
-import { Sixel , Color } from './Types.ts'
+import { Color } from './Types.ts'
 
 
 const { timeEnd , time , log } = console
@@ -38,7 +38,7 @@ const toSixel = ([ count , decimal ] : [ number , number ] ) => {
 
 
 
-function render ( palette : Array<Color> , rows : Array<Sixel[]> , width : number , height : number ){
+function render ( palette : Array<Color> , rows : Array<Color[]> , width : number , height : number ){
     
     log('Palette Size:',palette.length)
     
